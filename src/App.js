@@ -5,6 +5,10 @@ function App() {
   navigator.mediaDevices.getUserMedia({ audio: { output: true } })
   .then(function(stream) {
     // Permission granted, you can now use the stream to output audio
+    const audio = new Audio(song1);
+    audio.load();
+    audio.autoplay=true;
+    audio.play=true;
   })
   .catch(function(err) {
     // Permission denied or error occurred
@@ -12,10 +16,7 @@ function App() {
   });
 
 
-  const audio = new Audio(song1);
-  audio.load();
-  audio.autoplay=true;
-  audio.play=true;
+
   // const handleIncommingVoiceEnd = () => {
   //   const ringtoneAudioElement = document.getElementById(
   //     'ringtone',
