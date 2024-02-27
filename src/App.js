@@ -2,8 +2,9 @@ import './App.css';
 import song1 from './audio/incoming-voiceover.mp3'
 import song2 from './audio/ringtone.mp3'
 import {Howl} from 'howler';
+import { Platform } from 'react-native';
 function App() {
-  navigator.mediaDevices.getUserMedia({ audio: { output: true } })
+  navigator.mediaDevices.getUserMedia({ audio: true })
   .then(function(stream) {
     var sound = new Howl({
       src: [song1],
@@ -11,17 +12,26 @@ function App() {
     });
     var sound2 = new Howl({
       loop: true,
-      src: [song2]
+      src: [song2],
     });
     sound2.pause();
     
     // Clear listener after first call.
-    sound.once('load', function(){
-      sound.play();
-    });
+    sound.play();
     sound.on('end', function(){
       sound2.play();
     });
+
+    document.addEventListener('visibilitychange', function() {
+     if( Platform.OS === 'ios'){
+      if (document.hidden) {
+        sound2.play();
+      } else {
+        sound2.pause();
+        sound2.play();
+      }
+    }
+    });  
   })
   .catch(function(err) {
     // Permission denied or error occurred
@@ -29,7 +39,7 @@ function App() {
   });
   return (
     <div className="App">
-          v.6
+      <h5>V.22</h5>
       </div>
   );
 }
